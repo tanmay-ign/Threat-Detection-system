@@ -5,34 +5,14 @@ import Detections from '../pages/Detections';
 import Analytics from '../pages/Analytics';
 import SystemStatus from './SystemStatus';
 import { fetchAlerts } from '../api';
-import useWebSocket from '../hooks/useWebSocket';
+import logo from '../assets/logo.jpeg';
+// import useWebSocket from '../hooks/useWebSocket'; // Disabled WebSocket
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ weapons: 0, unattended_bags: 0, persons: 0, objects: 0 });
 
-  const getWebSocketUrl = () => {
-    if (import.meta.env.DEV) {
-     
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      return `${protocol}//${window.location.host}/ws/alerts`;
-    } else {
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
-      // Handle undefined or empty backend URL
-      if (!backendUrl) {
-        console.warn('[Dashboard] Backend URL is not defined, using localhost');
-        return 'ws://localhost:8000/ws/alerts';
-      }
-      const wsUrl = backendUrl.replace(/^http/, 'ws').replace(/^https/, 'wss');
-      return `${wsUrl}/ws/alerts`;
-
-    }
-  };
-
-  const { isConnected } = useWebSocket(getWebSocketUrl(), (message) => {
-    if (message.type === 'alert') {
-      loadStats();
-    }
-  });
+  // WebSocket disabled - using polling instead
+  const isConnected = false;
 
   const loadStats = async () => {
     try {
@@ -108,11 +88,11 @@ const NavbarContent = ({ stats, isConnected }) => {
         <div className="flex items-center justify-between">
           {/* Logo and Title */}
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-lg shadow-lg">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
+            <img 
+              src={logo} 
+              alt="Smart Threat Detection Logo" 
+              className="w-16 h-16 object-contain rounded-lg"
+            />
             <div>
               <h1 className="text-2xl font-bold text-white">
                 AI Threat Detection System
@@ -163,5 +143,3 @@ const NavbarContent = ({ stats, isConnected }) => {
 };
 
 export default Dashboard;
-
-
