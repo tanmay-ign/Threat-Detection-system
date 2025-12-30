@@ -61,22 +61,7 @@ const LiveFeed = () => {
             Live Surveillance Feed
           </h2>
           <div className="flex items-center gap-3">
-            {/* AI Model Status Badge */}
-            <div className="flex items-center gap-2 bg-green-900/30 border border-green-500 px-3 py-1.5 rounded-lg">
-              <div className="relative">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-ping absolute"></div>
-                <div className="w-2 h-2 bg-green-500 rounded-full relative"></div>
-              </div>
-              <span className="text-xs font-semibold text-green-400">LIVE AI MODEL RUNNING</span>
-            </div>
-            
-            {!hasError && !isLoading && (
-              <span className="px-2 py-1 bg-green-600 text-white text-xs rounded-full">
-                Connected
-              </span>
-            )}
-          </div>
-        </div>
+         
 
         {/* Camera Selector and Info */}
         <div className="flex items-center justify-between">
@@ -179,3 +164,4 @@ const LiveFeed = () => {
 };
 
 export default LiveFeed;
+
